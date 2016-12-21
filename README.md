@@ -1,6 +1,4 @@
-```
-Ubuntu 14.04
-CUDA 8.0
-Python 2.7
-Theano 0.8.2
-```
+* Ubuntu 14.04
+* CUDA 8.0
+* Python 2.7
+* Theano 0.8.2
