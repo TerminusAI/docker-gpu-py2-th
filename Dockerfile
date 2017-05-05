@@ -26,17 +26,19 @@ RUN pip install --no-deps --no-cache-dir git+git://github.com/Theano/Theano.git@
         \n[DebugMode]\ncheck_finite=1" \
     > /root/.theanorc
 
-# Cython
+# libgpuarray python dependencies
 RUN pip install --no-cache-dir \
     numpy \
     Cython
+
 
 # libgpuarray + pygpu
 RUN git clone https://github.com/Theano/libgpuarray.git && \
     cd libgpuarray && \
     mkdir Build && \
     cd Build && \
-    cmake .. -DCMAKE_BUILD_TYPE=Release && \
+    cmake .. \
+        -DCMAKE_BUILD_TYPE=Release && \
     make && \
     make install && \
     cd .. && \
@@ -45,15 +47,17 @@ RUN git clone https://github.com/Theano/libgpuarray.git && \
     cd .. && \
     rm -rf libgpuarray
 
+RUN ldconfig
 
 # python dependencies
+# TODO: using git until scikit-cuda@0.5.2 is realeased
 RUN pip --no-cache-dir install \
     matplotlib \
     pandas \
     pillow \
     scikit-image \
     scipy \
-    git+https://github.com/lebedov/scikit-cuda.git#egg=scikit-cuda  #TODO: using git until scikit-cuda@0.5.2 is realeased
+    git+https://github.com/lebedov/scikit-cuda.git#egg=scikit-cuda
 
 WORKDIR "/root"
 CMD ["/bin/bash"]
